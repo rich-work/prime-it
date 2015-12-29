@@ -15,6 +15,10 @@
 		7ABEEDAF1C32D43600B8C309 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7ABEEDAD1C32D43600B8C309 /* LaunchScreen.storyboard */; };
 		7ABEEDBA1C32D43700B8C309 /* Prime_ITTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABEEDB91C32D43700B8C309 /* Prime_ITTests.swift */; };
 		7ABEEDC51C32D43700B8C309 /* Prime_ITUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABEEDC41C32D43700B8C309 /* Prime_ITUITests.swift */; };
+		7ABEEDD41C32F56700B8C309 /* MaterialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABEEDD31C32F56700B8C309 /* MaterialView.swift */; };
+		7ABEEDD61C32F59700B8C309 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABEEDD51C32F59700B8C309 /* Constants.swift */; };
+		7ABEEDD81C32FE3900B8C309 /* MaterialButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABEEDD71C32FE3900B8C309 /* MaterialButton.swift */; };
+		7ABEEDDA1C32FE7B00B8C309 /* MaterialTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABEEDD91C32FE7B00B8C309 /* MaterialTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +53,10 @@
 		7ABEEDC01C32D43700B8C309 /* Prime-ITUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Prime-ITUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ABEEDC41C32D43700B8C309 /* Prime_ITUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prime_ITUITests.swift; sourceTree = "<group>"; };
 		7ABEEDC61C32D43700B8C309 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7ABEEDD31C32F56700B8C309 /* MaterialView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialView.swift; sourceTree = "<group>"; };
+		7ABEEDD51C32F59700B8C309 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		7ABEEDD71C32FE3900B8C309 /* MaterialButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialButton.swift; sourceTree = "<group>"; };
+		7ABEEDD91C32FE7B00B8C309 /* MaterialTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +107,7 @@
 		7ABEEDA01C32D43600B8C309 /* Prime-IT */ = {
 			isa = PBXGroup;
 			children = (
+				7ABEEDD21C32F51300B8C309 /* Resources */,
 				7ABEEDA11C32D43600B8C309 /* AppDelegate.swift */,
 				7ABEEDA31C32D43600B8C309 /* ViewController.swift */,
 				7ABEEDA51C32D43600B8C309 /* Main.storyboard */,
@@ -126,6 +135,17 @@
 				7ABEEDC61C32D43700B8C309 /* Info.plist */,
 			);
 			path = "Prime-ITUITests";
+			sourceTree = "<group>";
+		};
+		7ABEEDD21C32F51300B8C309 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				7ABEEDD31C32F56700B8C309 /* MaterialView.swift */,
+				7ABEEDD51C32F59700B8C309 /* Constants.swift */,
+				7ABEEDD71C32FE3900B8C309 /* MaterialButton.swift */,
+				7ABEEDD91C32FE7B00B8C309 /* MaterialTextField.swift */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -259,9 +279,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7ABEEDD61C32F59700B8C309 /* Constants.swift in Sources */,
 				7ABEEDAA1C32D43600B8C309 /* Prime_IT.xcdatamodeld in Sources */,
+				7ABEEDD81C32FE3900B8C309 /* MaterialButton.swift in Sources */,
 				7ABEEDA41C32D43600B8C309 /* ViewController.swift in Sources */,
 				7ABEEDA21C32D43600B8C309 /* AppDelegate.swift in Sources */,
+				7ABEEDD41C32F56700B8C309 /* MaterialView.swift in Sources */,
+				7ABEEDDA1C32FE7B00B8C309 /* MaterialTextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

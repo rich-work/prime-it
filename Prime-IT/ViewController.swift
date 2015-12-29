@@ -10,10 +10,27 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var problemField: MaterialTextField!
+    @IBOutlet weak var barcodeField: MaterialTextField!
+    @IBOutlet weak var firstNameField: MaterialTextField!
+    @IBOutlet weak var lastNameField: MaterialTextField!
+    @IBOutlet weak var categoryField: MaterialTextField!
+    @IBOutlet weak var commentField: MaterialTextField!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
+    
+    @IBAction func submitPressed(sender: MaterialButton) {
+        
+    }
+    
+    @IBAction func clearPressed(sender: MaterialButton) {
+        
+    }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
