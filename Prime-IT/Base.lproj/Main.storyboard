@@ -115,12 +115,19 @@
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <action selector="categoryChangeAction:" destination="BYZ-38-t0r" eventType="touchDown" id="czR-6F-GD2"/>
+                                                        </connections>
                                                     </textField>
                                                     <pickerView contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1r5-Dq-td5">
                                                         <rect key="frame" x="0.0" y="293" width="320" height="100"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="100" id="nlG-6y-kPl"/>
                                                         </constraints>
+                                                        <connections>
+                                                            <outlet property="dataSource" destination="BYZ-38-t0r" id="WEO-yO-xFb"/>
+                                                            <outlet property="delegate" destination="BYZ-38-t0r" id="HSK-Zr-VJk"/>
+                                                        </connections>
                                                     </pickerView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Comments: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0lC-ma-w82">
                                                         <rect key="frame" x="0.0" y="401" width="320" height="15"/>
@@ -202,6 +209,7 @@
                     <connections>
                         <outlet property="barcodeField" destination="sS3-7Y-Gj5" id="hBm-ii-IQV"/>
                         <outlet property="categoryField" destination="f2R-Lf-6nu" id="zF3-oc-enS"/>
+                        <outlet property="categoryPicker" destination="1r5-Dq-td5" id="Qr2-U1-V5l"/>
                         <outlet property="commentField" destination="uQC-2z-vaf" id="PKj-be-fmd"/>
                         <outlet property="firstNameField" destination="NRL-PZ-ErX" id="Imd-98-7uK"/>
                         <outlet property="lastNameField" destination="gKS-Jw-OEl" id="vYZ-mQ-3B3"/>
