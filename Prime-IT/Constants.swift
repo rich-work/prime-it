@@ -12,7 +12,7 @@ import UIKit
 let SHADOW_COLOR: CGFloat = 157.0 / 255.0
 let KEY_UID = "uid"
 
-let TICKET_URL = "http://primesupport.azurewebsites.net/primeservices/api/tickets"
+let TICKET_URL = "https://primesupport.azurewebsites.net/primeservices/api/tickets"
 
 let CAT_PICKER_DATASOURCE = ["Troubleshoot",
     "Installation",

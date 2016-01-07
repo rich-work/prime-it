@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8150" systemVersion="15A204g" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" initialViewController="01J-lp-oVM">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8122"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -15,8 +16,32 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <animations/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TSL-AQ-gaV">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="prime-splash" translatesAutoresizingMaskIntoConstraints="NO" id="V3m-dq-hJS">
+                                        <rect key="frame" x="125" y="100" width="350" height="400"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="400" id="DXt-8h-kfc"/>
+                                            <constraint firstAttribute="width" constant="350" id="cEA-Rt-Kvt"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.16862745100000001" green="0.24313725489999999" blue="0.31372549020000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="V3m-dq-hJS" firstAttribute="centerY" secondItem="TSL-AQ-gaV" secondAttribute="centerY" id="J4V-PU-uxJ"/>
+                                    <constraint firstItem="V3m-dq-hJS" firstAttribute="centerX" secondItem="TSL-AQ-gaV" secondAttribute="centerX" id="erx-xb-Vch"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="TSL-AQ-gaV" secondAttribute="bottom" id="Apv-8u-Wem"/>
+                            <constraint firstAttribute="trailing" secondItem="TSL-AQ-gaV" secondAttribute="trailing" id="QNK-OB-a1l"/>
+                            <constraint firstItem="TSL-AQ-gaV" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="dG8-mr-6RD"/>
+                            <constraint firstItem="TSL-AQ-gaV" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="vnZ-Yx-Xav"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -24,4 +49,7 @@
             <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="prime-splash" width="2100" height="1500"/>
+    </resources>
 </document>
