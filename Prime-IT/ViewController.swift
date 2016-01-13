@@ -17,8 +17,6 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     @IBOutlet weak var primeScrollView: UIScrollView!
     @IBOutlet weak var primeFieldView: UIView!
     @IBOutlet weak var primeStackView: UIStackView!
-    @IBOutlet weak var primeLoadView: UIView!
-    @IBOutlet weak var primeLoadingAct: UIActivityIndicatorView!
     
     @IBOutlet weak var problemField: MaterialTextField!
     @IBOutlet weak var barcodeField: MaterialTextField!
@@ -29,10 +27,15 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var categoryPicker: UIPickerView!
     
+    var ticketToSubmit: Ticket!
+    
     var kbHeight: CGFloat! = 0
     var activeTextField: UITextField!
     var activeTextView: UITextView!
     var viewActive: Bool! = true
+    
+    var loading: UIAlertController!
+    var activity: UIActivityIndicatorView!
     
 //    var barcode: String!
 //    var comment: String!
@@ -52,7 +55,6 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         self.activeTextView = self.commentView
     
         commentView.delegate = self
-        self.primeLoadView.hidden = true
         
         
 //        print("background: \(primeBackgroundView.frame)")
@@ -165,54 +167,26 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     // ******** Actual form control ********
     
     @IBAction func submitPressed(sender: MaterialButton) {
+
         if self.problemField.text == "" {
             self.showErrorAlert("ALERT", msg: "Please describe your problem!")
         } else if self.firstNameField.text == "" || self.lastNameField.text == "" {
             self.showErrorAlert("ALERT", msg: "Your first name and last name are required!")
-        } else {
-            self.primeLoadView.hidden = false
-            self.primeLoadingAct.startAnimating()
-            let firstInitIndex = self.firstNameField.text!.startIndex.advancedBy(1)
-            let firstInitial = self.firstNameField.text!.substringToIndex(firstInitIndex)
-            let customerOrigin = self.lastNameField.text! + firstInitial
-            let customer = customerOrigin.lowercaseString
-            
-            var ticket: Dictionary<String,String> = [
-                "title": self.problemField.text!,
-                "customer": customer,
-                "condition": "Open"
-            ]
-            if self.barcodeField.text != "" {
-                ticket["barcode"] = self.barcodeField.text
-            }
-            if self.categoryLabel.text != "" {
-                ticket["category"] = self.categoryLabel.text
-            }
-            if self.commentView.text != "" {
-                ticket["comments"] = self.commentView.text
-            }
-//            "barcode": self.barcode,
-//            "category": self.categoryLabel.text!,
-//            "comments": self.commentView.text!,
-            
-            
-            let url = NSURL(string: TICKET_URL)
-            
-            Alamofire.request(.POST, url!, parameters: ticket, encoding: .JSON, headers: nil).response { request, response, data, error in
-                
-                //print("\(response)")
-                if error == nil {
-                    self.clearForm()
-                    self.primeLoadView.hidden = true
-                    self.primeLoadingAct.stopAnimating()
-                    self.showErrorAlert("CONGRATULATION", msg: "Ticket is submitted successfully! We will work on it soon. Thank you for using IT ticket system!")
-                } else {
-                    self.primeLoadView.hidden = true
-                    self.primeLoadingAct.stopAnimating()
-                    self.showErrorAlert("ERROR", msg: "We are currently experiencing problem with receiving ticket! Please try again later.")
+        } else if self.barcodeField.text != "" {
+//            self.showLoading()
+            self.verifyBarcode { (flg) in
+                if flg == true {
+                    self.showLoading()
+                    self.ticketToSubmit = Ticket(t: self.problemField.text!, fn: self.firstNameField.text!, ln: self.lastNameField.text!, bcode: self.barcodeField.text!, cat: self.categoryLabel.text!, com: self.commentView.text!)
+                    self.verifyUserNSubmit()
                 }
             }
+        } else {
+            self.showLoading()
+            self.ticketToSubmit = Ticket(t: self.problemField.text!, fn: self.firstNameField.text!, ln: self.lastNameField.text!, bcode: self.barcodeField.text!, cat: self.categoryLabel.text!, com: self.commentView.text!)
+            self.verifyUserNSubmit()
         }
+
     }
     
     @IBAction func clearPressed(sender: MaterialButton) {
@@ -220,6 +194,139 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     }
     
     // ******** End Actual form control ********
+    
+    // ******** Action sheet ********
+    
+    func showOptions() {
+        self.activity.stopAnimating()
+        self.presentedViewController?.dismissViewControllerAnimated(true, completion: nil)
+        let actionSheet = UIAlertController(title: "ALERT", message: "Multiple users associated with this name. Please choose your user ID:", preferredStyle: .ActionSheet)
+        let dismissChoice = {
+            (action: UIAlertAction!) -> Void in
+            self.ticketToSubmit.assignUserName(action.title!)
+            self.submitTicket()
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
+        for var j = 0; j < self.ticketToSubmit.availUser.count; j++ {
+            actionSheet.addAction(UIAlertAction(title: self.ticketToSubmit.availUser[j], style: .Default, handler: dismissChoice))
+        }
+        actionSheet.addAction(UIAlertAction(title: "CANCEL", style: .Destructive, handler: nil))
+        presentViewController(actionSheet, animated: true, completion: nil)
+    }
+    
+    func showLoading() {
+        
+        self.loading = UIAlertController(title: "Connecting...", message: "\n\n", preferredStyle: .Alert)
+        self.activity = UIActivityIndicatorView(frame: self.loading.view.bounds)
+        self.activity.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        self.activity.color = UIColor.blackColor()
+        self.loading.view.addSubview(self.activity)
+        self.activity.userInteractionEnabled = false
+        self.activity.startAnimating()
+        self.presentViewController(self.loading, animated: true, completion: nil)
+        
+    }
+    
+    func stopShowLoading() {
+        self.activity.stopAnimating()
+        self.presentedViewController?.dismissViewControllerAnimated(true, completion: nil)
+    }
+    // ******** End of Action Sheet ********
+    
+    
+    func verifyBarcode(completionHandler: (Bool?) -> ()) {
+
+        let urlEquipStr = URL_EQUIPMENT + "\(self.barcodeField.text!)"
+        let urlEquip = NSURL(string: urlEquipStr)!
+        
+        Alamofire.request(.GET, urlEquip).validate().response { (request, response, data, error) in
+//            self.stopShowLoading()
+            if error == nil {
+                if let resultvalue = data as? Int {
+                    if resultvalue <= 0 {
+                        self.showErrorAlert("ERROR", msg: "Machine is not found! Please double check your barcode")
+                        completionHandler(false)
+                    } else {
+                        completionHandler(true)
+                    }
+                } else {
+                    self.showErrorAlert("ERROR", msg: "Fail to interpret server response!")
+                    completionHandler(false)
+                }
+            } else {
+                self.showErrorAlert("ERROR", msg: "Invalid Barcode!")
+                completionHandler(false)
+            }
+            
+        }
+    }
+    
+    func verifyUserNSubmit() {
+        let urlStr = URL_USER + "\(ticketToSubmit.firstName)" + "/" + "\(ticketToSubmit.lastName)"
+        let urlUser = NSURL(string: urlStr)!
+        
+        Alamofire.request(.GET, urlUser).responseJSON { response in
+//            self.stopShowLoading()
+            if let resultJSON = response.result.value as? [Dictionary<String,AnyObject>] {
+                if resultJSON.count > 1 {
+                    for var i = 0; i < resultJSON.count; ++i {
+                        if let userName = resultJSON[i]["username"] as? String {
+                            self.ticketToSubmit.addAvailUserName(userName)
+                        }
+                    }
+                    
+                    print(self.ticketToSubmit.availUser)
+                    self.showOptions()
+                    
+                } else if resultJSON.count == 1 {
+                    if let userName = resultJSON[0]["username"] as? String {
+                        self.ticketToSubmit.assignUserName(userName)
+                        self.submitTicket()
+                    }
+                    print("submit ticket: " + self.ticketToSubmit.customer)
+                } else {
+                    self.showErrorAlert("ERROR", msg: "No user found! Please check the spelling of your name or contact IT.")
+                }
+            }
+        }
+    }
+    
+    // ******** Submit Ticket **********
+    
+    func submitTicket() {
+//        self.showLoading()
+        var ticket: Dictionary<String,String> = [
+            "title": self.ticketToSubmit.title,
+            "customer": self.ticketToSubmit.customer,
+            "condition": "Open"
+        ]
+        if self.ticketToSubmit.barcode != "" {
+            ticket["barcode"] = self.ticketToSubmit.barcode
+        }
+        if self.ticketToSubmit.category != "" {
+            ticket["category"] = self.ticketToSubmit.category
+        }
+        if self.ticketToSubmit.comment != "" {
+            ticket["comments"] = self.ticketToSubmit.comment
+        }
+
+        let url = NSURL(string: TICKET_URL)
+        
+        Alamofire.request(.POST, url!, parameters: ticket, encoding: .JSON, headers: nil).response { request, response, data, error in
+            
+            //print("\(response)")
+//            self.stopShowLoading()
+            if error == nil {
+                self.clearForm()
+                self.showErrorAlert("CONGRATULATION", msg: "Ticket is submitted successfully! We will work on it soon. Thank you for using IT ticket system!")
+            } else {
+                self.showErrorAlert("ERROR", msg: "We are currently experiencing problem with receiving ticket! Please try again later.")
+            }
+        }
+        
+    }
+    
+    // ******** End Submit Ticket **********
     
     
     // ******** Picker View Config ********
@@ -249,6 +356,8 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     // ******** Additional control ********
     
     func showErrorAlert(title: String, msg: String) {
+        self.activity.stopAnimating()
+        self.presentedViewController?.dismissViewControllerAnimated(true, completion: nil)
         let alert = UIAlertController(title: title, message: msg, preferredStyle: .Alert)
         let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
         alert.addAction(action)
@@ -263,6 +372,7 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         self.categoryLabel.text = "Please pick a category."
         self.commentView.text = ""
         self.categoryPicker.hidden = true
+        self.ticketToSubmit.resetTicket()
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {

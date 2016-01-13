@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		14EAD2346B71706F644A560B /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B2FA0804A289FF7D7DCF412 /* Pods.framework */; };
 		7A1902391C3EB75F00C8A0F4 /* MaterialScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1902381C3EB75F00C8A0F4 /* MaterialScrollView.swift */; };
+		7A27E6F81C4598580058B258 /* Ticket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A27E6F71C4598580058B258 /* Ticket.swift */; };
 		7A69DFEB1C3D5BC700107565 /* MaterialLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A69DFEA1C3D5BC700107565 /* MaterialLabel.swift */; };
 		7ABEEDA21C32D43600B8C309 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABEEDA11C32D43600B8C309 /* AppDelegate.swift */; };
 		7ABEEDA41C32D43600B8C309 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABEEDA31C32D43600B8C309 /* ViewController.swift */; };
@@ -45,6 +46,7 @@
 /* Begin PBXFileReference section */
 		3B2FA0804A289FF7D7DCF412 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A1902381C3EB75F00C8A0F4 /* MaterialScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialScrollView.swift; sourceTree = "<group>"; };
+		7A27E6F71C4598580058B258 /* Ticket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ticket.swift; sourceTree = "<group>"; };
 		7A69DFEA1C3D5BC700107565 /* MaterialLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialLabel.swift; sourceTree = "<group>"; };
 		7ABEED9E1C32D43600B8C309 /* Prime-IT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Prime-IT.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ABEEDA11C32D43600B8C309 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -95,6 +97,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7A27E6F61C4598440058B258 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				7A27E6F71C4598580058B258 /* Ticket.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		7ABEED951C32D43600B8C309 = {
 			isa = PBXGroup;
 			children = (
@@ -120,6 +130,7 @@
 		7ABEEDA01C32D43600B8C309 /* Prime-IT */ = {
 			isa = PBXGroup;
 			children = (
+				7A27E6F61C4598440058B258 /* Models */,
 				7ABEEDD21C32F51300B8C309 /* Resources */,
 				7ABEEDA11C32D43600B8C309 /* AppDelegate.swift */,
 				7ABEEDA31C32D43600B8C309 /* ViewController.swift */,
@@ -252,7 +263,7 @@
 				TargetAttributes = {
 					7ABEED9D1C32D43600B8C309 = {
 						CreatedOnToolsVersion = 7.1.1;
-						DevelopmentTeam = 73L558Q6B2;
+						DevelopmentTeam = 3E872A32C5;
 					};
 					7ABEEDB41C32D43600B8C309 = {
 						CreatedOnToolsVersion = 7.1.1;
@@ -364,6 +375,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A27E6F81C4598580058B258 /* Ticket.swift in Sources */,
 				7ACA001A1C3598B3008D0FD0 /* MaterialTextView.swift in Sources */,
 				7ABEEDD61C32F59700B8C309 /* Constants.swift in Sources */,
 				7ABEEDAA1C32D43600B8C309 /* Prime_IT.xcdatamodeld in Sources */,
@@ -519,9 +531,9 @@
 				INFOPLIST_FILE = "Prime-IT/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Prime.Prime-IT";
+				PRODUCT_BUNDLE_IDENTIFIER = "Prime-IT";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "95ee6092-06e6-4436-b336-84605a0e3814";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -532,13 +544,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: River Healthcare Inc. (73L558Q6B2)";
 				INFOPLIST_FILE = "Prime-IT/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Prime.Prime-IT";
+				PRODUCT_BUNDLE_IDENTIFIER = "Prime-IT";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "95ee6092-06e6-4436-b336-84605a0e3814";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
