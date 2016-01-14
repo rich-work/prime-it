@@ -109,19 +109,16 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         let urlEquipStr = URL_EQUIPMENT + "\(self.barcodeField.text!)"
         let urlEquip = NSURL(string: urlEquipStr)!
         
-        Alamofire.request(.GET, urlEquip).validate().response { (request, response, data, error) in
+        Alamofire.request(.GET, urlEquip).validate().responseJSON { response in
 
-            if error == nil {
-                if let resultvalue = data as? Int {
-                    if resultvalue <= 0 {
-                        self.showErrorAlert("ERROR", msg: "Machine is not found! Please double check your barcode")
-                        completionHandler(false)
-                    } else {
+            if response.response!.statusCode == 200 {
+                if let res = response.result.value as? Int {
+                    if res > 0 {
                         completionHandler(true)
+                    } else {
+                        self.showErrorAlert("ERROR", msg: "Invalid Barcode!")
+                        completionHandler(false)
                     }
-                } else {
-                    self.showErrorAlert("ERROR", msg: "Fail to interpret server response!")
-                    completionHandler(false)
                 }
             } else {
                 self.showErrorAlert("ERROR", msg: "Invalid Barcode!")
@@ -182,11 +179,12 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
 
         let url = NSURL(string: TICKET_URL)
         
-        Alamofire.request(.POST, url!, parameters: ticket, encoding: .JSON, headers: nil).response { request, response, data, error in
+        Alamofire.request(.POST, url!, parameters: ticket, encoding: .JSON, headers: nil).responseJSON { response in
 
-            if error == nil {
+            if response.response!.statusCode == 200 {
                 self.clearForm()
-                self.showErrorAlert("CONGRATULATION", msg: "Ticket is submitted successfully! We will work on it soon. Thank you for using IT ticket system!")
+                self.showSuccessAlert("CONGRATULATION", msg: "Ticket is submitted successfully! We will work on it soon. Thank you for using IT ticket system!")
+//                self.viewDidLoad()
             } else {
                 self.showErrorAlert("ERROR", msg: "We are currently experiencing problem with receiving ticket! Please try again later.")
             }
@@ -243,6 +241,20 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         presentViewController(alert, animated: true, completion: nil)
     }
     
+    func showSuccessAlert(title: String, msg: String) {
+        self.activity.stopAnimating()
+        self.presentedViewController?.dismissViewControllerAnimated(true, completion: nil)
+        let success = UIAlertController(title: title, message: msg, preferredStyle: .Alert)
+        let dismissAction = {
+            (action: UIAlertAction!) -> Void in
+            self.dismissViewControllerAnimated(true, completion: nil)
+            self.viewDidLoad()
+        }
+        let action = UIAlertAction(title: "OK", style: .Default, handler: dismissAction)
+        success.addAction(action)
+        presentViewController(success, animated: true, completion: nil)
+    }
+    
     func clearForm() {
         self.problemField.text = ""
         self.barcodeField.text = ""
@@ -252,6 +264,7 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         self.commentView.text = ""
         self.categoryPicker.hidden = true
         self.ticketToSubmit.resetTicket()
+        self.viewDidLoad()
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
