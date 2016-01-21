@@ -116,12 +116,12 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
                     if res > 0 {
                         completionHandler(true)
                     } else {
-                        self.showErrorAlert("ERROR", msg: "Invalid Barcode!")
+                        self.showErrorAlert("ERROR", msg: "Invalid Barcode! \n Correct Format is 3 letters followed by 9 numbers. \n (XXX-XXXXXXXXX)")
                         completionHandler(false)
                     }
                 }
             } else {
-                self.showErrorAlert("ERROR", msg: "Invalid Barcode!")
+                self.showErrorAlert("ERROR", msg: "Invalid Barcode! \n Correct Format is 3 letters followed by 9 numbers. \n (XXX-XXXXXXXXX)")
                 completionHandler(false)
             }
             
@@ -202,19 +202,21 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     
     func showOptions() {
         self.activity.stopAnimating()
-        self.presentedViewController?.dismissViewControllerAnimated(true, completion: nil)
-        let actionSheet = UIAlertController(title: "ALERT", message: "Multiple users associated with this name. Please choose your user ID:", preferredStyle: .ActionSheet)
-        let dismissChoice = {
-            (action: UIAlertAction!) -> Void in
-            self.ticketToSubmit.assignUserName(action.title!)
-            self.submitTicket()
-            self.dismissViewControllerAnimated(true, completion: nil)
-        }
-        for var j = 0; j < self.ticketToSubmit.availUser.count; j++ {
-            actionSheet.addAction(UIAlertAction(title: self.ticketToSubmit.availUser[j], style: .Default, handler: dismissChoice))
-        }
-        actionSheet.addAction(UIAlertAction(title: "CANCEL", style: .Destructive, handler: nil))
-        presentViewController(actionSheet, animated: true, completion: nil)
+        self.presentedViewController?.dismissViewControllerAnimated(true, completion: { () -> Void in
+            let actionSheet = UIAlertController(title: "ALERT", message: "Multiple users associated with this name. Please choose your user ID:", preferredStyle: .ActionSheet)
+            let dismissChoice = {
+                (action: UIAlertAction!) -> Void in
+                self.ticketToSubmit.assignUserName(action.title!)
+                self.submitTicket()
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }
+            for var j = 0; j < self.ticketToSubmit.availUser.count; j++ {
+                actionSheet.addAction(UIAlertAction(title: self.ticketToSubmit.availUser[j], style: .Default, handler: dismissChoice))
+            }
+            actionSheet.addAction(UIAlertAction(title: "CANCEL", style: .Destructive, handler: nil))
+            self.presentViewController(actionSheet, animated: true, completion: nil)
+        })
+
     }
     
     // ******** End of Action Sheet ********
@@ -234,25 +236,27 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     
     func showErrorAlert(title: String, msg: String) {
         self.activity.stopAnimating()
-        self.presentedViewController?.dismissViewControllerAnimated(true, completion: nil)
-        let alert = UIAlertController(title: title, message: msg, preferredStyle: .Alert)
-        let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
-        alert.addAction(action)
-        presentViewController(alert, animated: true, completion: nil)
+        self.presentedViewController?.dismissViewControllerAnimated(true, completion: { () -> Void in
+            let alert = UIAlertController(title: title, message: msg, preferredStyle: .Alert)
+            let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
+            alert.addAction(action)
+            self.presentViewController(alert, animated: true, completion: nil)
+        })
     }
     
     func showSuccessAlert(title: String, msg: String) {
         self.activity.stopAnimating()
-        self.presentedViewController?.dismissViewControllerAnimated(true, completion: nil)
-        let success = UIAlertController(title: title, message: msg, preferredStyle: .Alert)
-        let dismissAction = {
-            (action: UIAlertAction!) -> Void in
-            self.dismissViewControllerAnimated(true, completion: nil)
-            self.viewDidLoad()
-        }
-        let action = UIAlertAction(title: "OK", style: .Default, handler: dismissAction)
-        success.addAction(action)
-        presentViewController(success, animated: true, completion: nil)
+        self.presentedViewController?.dismissViewControllerAnimated(true, completion: { () -> Void in
+            let success = UIAlertController(title: title, message: msg, preferredStyle: .Alert)
+            let dismissAction = {
+                (action: UIAlertAction!) -> Void in
+                self.dismissViewControllerAnimated(true, completion: nil)
+                self.viewDidLoad()
+            }
+            let action = UIAlertAction(title: "OK", style: .Default, handler: dismissAction)
+            success.addAction(action)
+            self.presentViewController(success, animated: true, completion: nil)
+        })
     }
     
     func clearForm() {
